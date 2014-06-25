@@ -6,9 +6,12 @@ package eu.vitaliy.maven.clipplugin.domain;
  * Time: 22:09
  */
 public class Dependency {
-    private String groupId;
-    private String artifactId;
-    private String version;
+    String groupId;
+    String artifactId;
+    String version;
+
+    public Dependency() {
+    }
 
     private Dependency(String groupId, String artifactId, String version) {
         this.groupId = groupId;
@@ -19,6 +22,22 @@ public class Dependency {
 
     public Dependency of(String groupId, String artifactId, String version) {
         return new Dependency(groupId, artifactId, version);
+    }
+
+    public String getGroupId() {
+        return groupId;
+    }
+
+    public String getArtifactId() {
+        return artifactId;
+    }
+
+    public String getVersion() {
+        return version;
+    }
+
+    public void setVersion(String version) {
+        this.version = version;
     }
 
     @Override

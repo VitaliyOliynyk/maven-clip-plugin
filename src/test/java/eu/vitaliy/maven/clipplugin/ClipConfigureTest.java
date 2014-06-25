@@ -69,7 +69,8 @@ public class ClipConfigureTest {
 
     @Test(expected = PomNotFoundException.class)
     public void createProjectFilesWithErrorTest(){
-        clipConfigure.createProjectFiles(asList("module2", "module3", "module_error"));
+        List<File> files = clipConfigure.createProjectFiles(asList("module2", "module3", "module_error"));
+        fail("Error!");
     }
 
 }

@@ -1,25 +1,18 @@
 package eu.vitaliy.maven.clipplugin;
 
-import ch.lambdaj.function.convert.ConstructorArgumentConverter;
-import ch.lambdaj.function.convert.Converter;
+import com.google.common.base.Function;
+import com.google.common.collect.Lists;
+import com.sun.istack.internal.Nullable;
 import eu.vitaliy.maven.clipplugin.exception.PomNotFoundException;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
-
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
-import org.joox.Match;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.Arrays;
 import java.util.List;
-
-import static ch.lambdaj.Lambda.convert;
-import static org.joox.JOOX.$;
 
 @Mojo( name = "configure", defaultPhase = LifecyclePhase.PROCESS_SOURCES )
 public class ClipConfigure
@@ -46,8 +39,6 @@ public class ClipConfigure
     public void executeImpl() throws Exception {
         List<String> moduleNames = createModuleNames(modules);
         List<File> projectFiles = createProjectFiles(moduleNames);
-
-
     }
 
     public List<String> createModuleNames(String modules) {
@@ -55,15 +46,15 @@ public class ClipConfigure
     }
 
     public List<File> createProjectFiles(List<String> moduleNames) {
-        return convert(moduleNames, new Converter<String, java.io.File>() {
+        return Lists.newArrayList(Lists.transform(moduleNames, new Function<String, File>() {
             @Override
-            public File convert(String moduleName) {
+            public File apply(@Nullable java.lang.String moduleName) {
                 File pomFile = new File(baseDir, "/../" + moduleName + "/pom.xml");
                 if(!pomFile.exists()) {
                     throw new PomNotFoundException(pomFile);
                 }
                 return pomFile;
             }
-        });
+        }));
     }
 }
