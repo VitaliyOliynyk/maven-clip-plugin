@@ -7,4 +7,14 @@
   <version>1.0</version>
   <name>module1</name>
   <url>http://maven.apache.org</url>
+    <dependencies>
+        <dependency>
+            <groupId>eu.vitaliy.maven.clipplugin</groupId>
+            <artifactId>module2</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>eu.vitaliy.maven.clipplugin</groupId>
+            <artifactId>module4</artifactId>
+        </dependency>
+    </dependencies>
 </project>

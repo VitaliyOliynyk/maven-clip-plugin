@@ -3,6 +3,8 @@ package eu.vitaliy.maven.clipplugin;
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;
 import com.sun.istack.internal.Nullable;
+import eu.vitaliy.maven.clipplugin.domain.Module;
+import eu.vitaliy.maven.clipplugin.domain.Project;
 import eu.vitaliy.maven.clipplugin.exception.PomNotFoundException;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
@@ -11,6 +13,7 @@ import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -37,8 +40,29 @@ public class ClipConfigure
     }
 
     public void executeImpl() throws Exception {
+        Project project = getProject();
         List<String> moduleNames = createModuleNames(modules);
         List<File> projectFiles = createProjectFiles(moduleNames);
+        List<Module> modules = createModules(projectFiles);
+        project.configure(modules);
+        System.out.println("Project configured");
+    }
+
+    private Project getProject() {
+        Project project = new Project(new File("pom.xml"));
+        project.parseFromPom();
+        return project;
+    }
+
+    private List<Module> createModules(List<File> projectFiles) {
+        List<Module> modules = new ArrayList<Module>(projectFiles.size());
+        for (File projectFile : projectFiles) {
+            Module module = new Module(projectFile);
+            module.parseFromPom();
+            modules.add(module);
+        }
+
+        return modules;
     }
 
     public List<String> createModuleNames(String modules) {

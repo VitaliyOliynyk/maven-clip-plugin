@@ -73,4 +73,12 @@ public class ClipConfigureTest {
         fail("Error!");
     }
 
+    @Test
+    public void integrateTest() throws Exception {
+        clipConfigure.modules = MODULES;
+        clipConfigure.execute();
+    }
+
+
+
 }

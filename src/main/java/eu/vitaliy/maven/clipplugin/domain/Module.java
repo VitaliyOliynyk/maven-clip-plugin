@@ -2,6 +2,7 @@ package eu.vitaliy.maven.clipplugin.domain;
 
 import org.joox.Match;
 import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
 
 import java.io.File;
@@ -17,11 +18,16 @@ import static org.joox.JOOX.$;
  */
 public class Module extends Dependency{
     private List<Module> modules;
-    Match documentWithNamespace;
+    private Match documentWithNamespace;
+    protected File pomFile;
 
-    void parseFromPom(File pom) {
+    public Module(File pomFile) {
+        this.pomFile = pomFile;
+    }
+
+    public void parseFromPom() {
         try {
-            parseFromPomImpl(pom);
+            parseFromPomImpl(pomFile);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -37,5 +43,20 @@ public class Module extends Dependency{
         groupId = documentWithNamespace.xpath("/p:project/p:groupId").text();
         artifactId = documentWithNamespace.xpath("/p:project/p:artifactId").text();
         version = documentWithNamespace.xpath("/p:project/p:version").text();
+    }
+
+    public void configure(List<Module> modules) {
+        Match dependencies = documentWithNamespace.xpath("/p:project/p:dependencies/p:dependency");
+        List<Element> dependencyList = dependencies.get();
+        for (Element dependencyElement : dependencyList) {
+            String dependencyArtefactId = $(dependencyElement).child("artifactId").text();
+            for (Module module : modules) {
+                if (module.getArtifactId().equals(dependencyArtefactId)) {
+                    System.out.println("Match artefact: " + module.getArtifactId());
+                }
+            }
+        }
+
+        System.out.println("Module "+artifactId + " configure\n----------------------");
     }
 }
