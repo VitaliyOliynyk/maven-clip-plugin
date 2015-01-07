@@ -19,11 +19,6 @@ public class Dependency {
         this.version = version;
     }
 
-
-    public Dependency of(String groupId, String artifactId, String version) {
-        return new Dependency(groupId, artifactId, version);
-    }
-
     public String getGroupId() {
         return groupId;
     }

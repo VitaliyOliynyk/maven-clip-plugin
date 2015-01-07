@@ -2,7 +2,6 @@ package eu.vitaliy.maven.clipplugin;
 
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;
-import com.sun.istack.internal.Nullable;
 import eu.vitaliy.maven.clipplugin.domain.Module;
 import eu.vitaliy.maven.clipplugin.domain.Project;
 import eu.vitaliy.maven.clipplugin.exception.PomNotFoundException;
@@ -17,7 +16,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-@Mojo( name = "configure", defaultPhase = LifecyclePhase.PROCESS_SOURCES )
+/**
+ * example:
+ * mvn eu.vitaliy:maven-clip-plugin:0.0.1-SNAPSHOT:clip -Dmodules=module2,module3,module4
+ */
+@Mojo( name = "clip", defaultPhase = LifecyclePhase.PROCESS_SOURCES )
 public class ClipConfigure
     extends AbstractMojo
 {
@@ -49,7 +52,7 @@ public class ClipConfigure
     }
 
     private Project getProject() {
-        Project project = new Project(new File("pom.xml"));
+        Project project = new Project(new File(baseDir, "pom.xml"));
         project.parseFromPom();
         return project;
     }
@@ -72,7 +75,7 @@ public class ClipConfigure
     public List<File> createProjectFiles(List<String> moduleNames) {
         return Lists.newArrayList(Lists.transform(moduleNames, new Function<String, File>() {
             @Override
-            public File apply(@Nullable java.lang.String moduleName) {
+            public File apply(java.lang.String moduleName) {
                 File pomFile = new File(baseDir, "/../" + moduleName + "/pom.xml");
                 if(!pomFile.exists()) {
                     throw new PomNotFoundException(pomFile);
