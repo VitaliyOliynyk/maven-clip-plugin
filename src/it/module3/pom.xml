@@ -4,7 +4,7 @@
   <groupId>eu.vitaliy.maven.clipplugin</groupId>
   <artifactId>module3</artifactId>
   <packaging>jar</packaging>
-  <version>1.0</version>
+  <version>3.0</version>
   <name>module3</name>
   <url>http://maven.apache.org</url>
   <dependencies>

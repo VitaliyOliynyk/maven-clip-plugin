@@ -70,12 +70,12 @@ public class Module extends Dependency{
                     Match dependencyVersionElement = $(dependencyElement).child(ELEMENT_VERSION);
 
                     if (dependencyVersionElement.size() == 0) {
-                        $(dependencyElement).append($(ELEMENT_VERSION).text(LATEST_DEPENDENCY_VERSION));
+                        $(dependencyElement).append($(ELEMENT_VERSION).text(module.getVersion()));
                     } else {
-                        dependencyVersionElement.text(LATEST_DEPENDENCY_VERSION);
+                        dependencyVersionElement.text(module.getVersion());
                     }
                     pomIsChanged = true;
-                    System.out.println(String.format("Match artefact for:[%s:%s:%s] ->%s ", groupId, artifactId, version, module.getArtifactId()));
+                    System.out.println(String.format("Match artefact for:[%s:%s:%s] ->[%s,%s,%s] ", groupId, artifactId, version, module.getGroupId(), module.getArtifactId(), module.getVersion()));
                 }
             }
             if (pomIsChanged) {
