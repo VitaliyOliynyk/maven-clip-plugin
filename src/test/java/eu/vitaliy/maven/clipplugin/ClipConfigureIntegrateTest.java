@@ -34,6 +34,7 @@ public class ClipConfigureIntegrateTest {
     @Test
     public void integrateTest() throws Exception {
         clipConfigure.modules = MODULES;
+        clipConfigure.versionConfigureWay="LATEST";
         clipConfigure.baseDir = new File("./src/it/module1");
         clipConfigure.execute();
     }

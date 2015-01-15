@@ -4,6 +4,7 @@ import com.google.common.base.Function;
 import com.google.common.collect.Lists;
 import eu.vitaliy.maven.clipplugin.domain.Module;
 import eu.vitaliy.maven.clipplugin.domain.Project;
+import eu.vitaliy.maven.clipplugin.domain.VersionConfigureWay;
 import eu.vitaliy.maven.clipplugin.exception.PomNotFoundException;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
@@ -26,11 +27,11 @@ public class ClipConfigure
 {
     File baseDir = new File(".");
 
-    /**
-     * Location of the file.
-     */
     @Parameter(property = "modules", required = true )
     String modules;
+
+    @Parameter(property = "versionConfigureWay", required = false, defaultValue = "VERSION")
+    String versionConfigureWay = VersionConfigureWay.VERSION.name();
 
     public void execute()
         throws MojoExecutionException
@@ -43,6 +44,8 @@ public class ClipConfigure
     }
 
     public void executeImpl() throws Exception {
+        System.out.println("modules: " + modules);
+        System.out.println("versionConfigureWay: " + versionConfigureWay);
         Project project = getProject();
         List<String> moduleNames = createModuleNames(modules);
         List<File> projectFiles = createProjectFiles(moduleNames);
@@ -53,6 +56,9 @@ public class ClipConfigure
 
     private Project getProject() {
         Project project = new Project(new File(baseDir, "pom.xml"));
+        if (versionConfigureWay != null) {
+            project.setVersionConfigureWay(VersionConfigureWay.valueOf(versionConfigureWay));
+        }
         project.parseFromPom();
         return project;
     }
@@ -61,6 +67,9 @@ public class ClipConfigure
         List<Module> modules = new ArrayList<Module>(projectFiles.size());
         for (File projectFile : projectFiles) {
             Module module = new Module(projectFile);
+            if (versionConfigureWay != null) {
+                module.setVersionConfigureWay(VersionConfigureWay.valueOf(versionConfigureWay));
+            }
             module.parseFromPom();
             modules.add(module);
         }

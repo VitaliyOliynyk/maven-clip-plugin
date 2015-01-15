@@ -25,7 +25,7 @@ public class Module extends Dependency{
     private Match documentWithNamespace;
     protected File pomFile;
     protected Document document;
-
+    protected VersionConfigureWay versionConfigureWay = VersionConfigureWay.VERSION;
     public Module(File pomFile) {
         this.pomFile = pomFile;
     }
@@ -68,22 +68,38 @@ public class Module extends Dependency{
             for (Module module : modules) {
                 if (module.getArtifactId().equals(dependencyArtefactId)) {
                     Match dependencyVersionElement = $(dependencyElement).child(ELEMENT_VERSION);
-
+                    String moduleVersion = (versionConfigureWay == VersionConfigureWay.VERSION ? module.getVersion() : LATEST_DEPENDENCY_VERSION);
+                    System.out.println("versionConfigureWay=" + versionConfigureWay + " for module " + module.getArtifactId());
                     if (dependencyVersionElement.size() == 0) {
-                        $(dependencyElement).append($(ELEMENT_VERSION).text(module.getVersion()));
+                        $(dependencyElement).append($(ELEMENT_VERSION).text(moduleVersion));
                     } else {
-                        dependencyVersionElement.text(module.getVersion());
+                        dependencyVersionElement.text(moduleVersion);
                     }
                     pomIsChanged = true;
                     System.out.println(String.format("Match artefact for:[%s:%s:%s] ->[%s,%s,%s] ", groupId, artifactId, version, module.getGroupId(), module.getArtifactId(), module.getVersion()));
                 }
             }
-            if (pomIsChanged) {
-                FileUtils.copyFile(pomFile, new File(pomFile.getAbsolutePath()+".backup"));
-                $(document).write(pomFile);
-            }
+            writePomFile(pomIsChanged);
         }
 
-        System.out.println("Module "+artifactId + " configure\n----------------------");
+        System.out.println("Module " + artifactId + " configure\n----------------------");
+    }
+
+    private void writePomFile(boolean pomIsChanged) throws IOException {
+        if (pomIsChanged) {
+            backupOriginalPomFile();
+            $(document).write(pomFile);
+        }
+    }
+
+    private void backupOriginalPomFile() throws IOException {
+        File backupPomFile = new File(pomFile.getAbsolutePath() + ".backup");
+        if (!backupPomFile.exists()) {
+            FileUtils.copyFile(pomFile, backupPomFile);
+        }
+    }
+
+    public void setVersionConfigureWay(VersionConfigureWay versionConfigureWay) {
+        this.versionConfigureWay = versionConfigureWay;
     }
 }
