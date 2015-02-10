@@ -1,6 +1,7 @@
 package eu.vitaliy.maven.clipplugin.domain;
 
 import java.io.File;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -24,7 +25,7 @@ public class Project extends Module{
     }
 
     @Override
-    public void configure(List<Module> modules) {
+    public void configure(Collection<Module> modules) {
         super.configure(modules);
         for (Module module : modules) {
             module.configure(modules);

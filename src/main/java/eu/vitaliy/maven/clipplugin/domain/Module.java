@@ -9,6 +9,7 @@ import org.xml.sax.SAXException;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Collection;
 import java.util.List;
 
 import static org.joox.JOOX.$;
@@ -50,7 +51,7 @@ public class Module extends Dependency{
         version = documentWithNamespace.xpath("/p:project/p:version").text();
     }
 
-    public void configure(List<Module> modules) {
+    public void configure(Collection<Module> modules) {
         try {
             configureImpl(modules);
         } catch (Exception e) {
@@ -59,7 +60,7 @@ public class Module extends Dependency{
     }
 
 
-    private void configureImpl(List<Module> modules) throws Exception {
+    private void configureImpl(Collection<Module> modules) throws Exception {
         Match dependencies = documentWithNamespace.xpath("/p:project/p:dependencies/p:dependency");
         List<Element> dependencyList = dependencies.get();
         boolean pomIsChanged = false;

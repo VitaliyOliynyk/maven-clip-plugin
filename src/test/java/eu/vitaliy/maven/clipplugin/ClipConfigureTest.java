@@ -44,7 +44,8 @@ public class ClipConfigureTest {
     @Test
     @Parameters
     public void createModuleNamesTest(String modulesStr, List<String> expectedModules) {
-        List<String> moduleNames = clipConfigure.createModuleNames(modulesStr);
+        clipConfigure.modules = modulesStr;
+        List<String> moduleNames = clipConfigure.createModuleNames();
         assertThat(moduleNames).isEqualTo(expectedModules);
     }
 
