@@ -3,7 +3,7 @@
 
     <groupId>eu.vitaliy</groupId>
     <artifactId>maven-clip-plugin</artifactId>
-    <version>0.1.0-SNAPSHOT</version>
+    <version>0.1.1-SNAPSHOT</version>
     <packaging>maven-plugin</packaging>
 
     <name>maven-clip-plugin Maven Plugin</name>

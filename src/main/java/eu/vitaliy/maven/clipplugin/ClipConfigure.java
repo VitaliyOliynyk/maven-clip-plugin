@@ -55,7 +55,7 @@ public class ClipConfigure extends AbstractMojo{
     public void executeImpl() throws Exception {
         log.info("modules: " + modules);
         log.info("versionConfigureWay: " + versionConfigureWay);
-        log.info("ide: " + versionConfigureWay);
+        log.info("ide: " + ide);
         ProjectInfo projectInfo = createProjectInfo();
         Project project = getProject(projectInfo);
         Collection<Module> modules = createModules(projectInfo.getModulePomFiles());
@@ -82,17 +82,25 @@ public class ClipConfigure extends AbstractMojo{
     }
 
     private Project getProject(ProjectInfo projectInfo) {
-        Project project = new Project(projectInfo.getProjectPomFile());
+        File projectPomFile = projectInfo.getProjectPomFile();
+        Project project = new Project(projectPomFile);
         if (versionConfigureWay != null) {
             project.setVersionConfigureWay(VersionConfigureWay.valueOf(versionConfigureWay));
         }
-        project.parseFromPom();
+
+        if (projectPomFile != null && projectPomFile.exists()) {
+            project.parseFromPom();
+        }
+
         return project;
     }
 
     private Collection<Module> createModules(Collection<File> projectFiles) {
         Collection<Module> modules = new ArrayList<Module>(projectFiles.size());
         for (File projectFile : projectFiles) {
+            if (projectFile == null || !projectFile.exists()) {
+                continue;
+            }
             Module module = new Module(projectFile);
             if (versionConfigureWay != null) {
                 module.setVersionConfigureWay(VersionConfigureWay.valueOf(versionConfigureWay));

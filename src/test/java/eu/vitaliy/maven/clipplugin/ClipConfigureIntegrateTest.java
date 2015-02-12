@@ -23,19 +23,25 @@ import static org.fest.assertions.api.Assertions.fail;
  */
 //@RunWith(JUnitParamsRunner.class)
 public class ClipConfigureIntegrateTest {
+    public static final String TEST_FILES = "target/it";
     private static final String MODULES = "module2,module3,module4";
+    public static final String BASE_DIR = TEST_FILES + "/module1";
     ClipConfigure clipConfigure;
 
     @Before
     public void before() throws Exception {
         clipConfigure = new ClipConfigure();
+        FileUtils.forceMkdir(new File("./target"));
+        FileUtils.deleteDirectory(new File(TEST_FILES));
+        FileUtils.copyDirectory(new File("./src/it"), new File(TEST_FILES));
     }
+
 
     @Test
     public void integrateTest() throws Exception {
         clipConfigure.modules = MODULES;
         clipConfigure.versionConfigureWay="LATEST";
-        clipConfigure.baseDir = new File("./src/it/module1");
+        clipConfigure.baseDir = new File(BASE_DIR);
         clipConfigure.execute();
     }
 

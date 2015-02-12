@@ -61,6 +61,10 @@ public class Module extends Dependency{
 
 
     private void configureImpl(Collection<Module> modules) throws Exception {
+        if (pomFile == null || !pomFile.exists()) {
+           return;
+        }
+
         Match dependencies = documentWithNamespace.xpath("/p:project/p:dependencies/p:dependency");
         List<Element> dependencyList = dependencies.get();
         boolean pomIsChanged = false;

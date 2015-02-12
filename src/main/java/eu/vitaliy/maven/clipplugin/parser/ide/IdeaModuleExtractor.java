@@ -16,6 +16,7 @@ public class IdeaModuleExtractor extends IDEModuleExtractor {
         try {
             return extractImpl(currentDirectory);
         } catch (Exception e) {
+            e.printStackTrace();
             throw new RuntimeException(e);
         }
     }
@@ -30,21 +31,37 @@ public class IdeaModuleExtractor extends IDEModuleExtractor {
             filePath = filePath.replaceAll("[^/]*?\\.iml", "");
 
             File pomFile;
+            String path;
             if (filePath.isEmpty()) {
-                pomFile = new File(currentDirectory, "pom.xml");
-                projectInfo.setProjectPomFile(pomFile);
-                continue;
+                path = "pom.xml";
+                pomFile = createFile(currentDirectory, path);
+                if (pomFile.exists()) {
+                    projectInfo.setProjectPomFile(pomFile);
+                }
             } else {
-                pomFile = new File(currentDirectory, filePath + "/pom.xml");
-                projectInfo.addModulePomFile(pomFile);
-            }
-            if (!pomFile.exists()) {
-                throw new FileNotFoundException(pomFile.getCanonicalPath());
+                path = filePath + "pom.xml";
+                pomFile = createFile(currentDirectory, path);
+                if (pomFile.exists()) {
+                    projectInfo.addModulePomFile(pomFile);
+                }
             }
 
-            System.out.println(pomFile.getCanonicalPath());
+            System.out.println("module path: " + path);
+            if (pomFile != null) {
+                System.out.println("module absolute path:" + pomFile.getAbsolutePath());
+                System.out.println("module canonical path:" + pomFile.getCanonicalPath());
+            }
+
         }
 
         return projectInfo;
+    }
+
+    private File createFile(File currentDirectory, String path) {
+       char[] pathCharArray = path.toCharArray();
+        if ((pathCharArray.length > 0 && pathCharArray[0] == '/') || (pathCharArray.length > 1 && pathCharArray[1] == ':')) {
+            return new File(path);
+        }
+        return new File(currentDirectory, path);
     }
 }
