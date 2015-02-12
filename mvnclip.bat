@@ -4,4 +4,4 @@
 ::
 :: -DversionConfigureWay=[VERSION,LATEST]
 ::
-mvn -o eu.vitaliy:maven-clip-plugin:0.1.0-SNAPSHOT:clip -DversionConfigureWay=VERSION -Dmodules=%1
+mvn -o eu.vitaliy:maven-clip-plugin:0.1.1-SNAPSHOT:clip -DversionConfigureWay=VERSION -Dmodules=%1
