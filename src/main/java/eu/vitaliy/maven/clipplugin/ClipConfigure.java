@@ -24,9 +24,9 @@ import java.util.List;
 
 /**
  * example:
- * mvn eu.vitaliy:maven-clip-plugin:0.0.1-SNAPSHOT:clip -Dmodules=module2,module3,module4
+ * mvn eu.vitaliy:maven-clip-plugin:0.1.0-SNAPSHOT:clip -Dmodules=module2,module3,module4
  */
-@Mojo( name = "clip", defaultPhase = LifecyclePhase.PROCESS_SOURCES, requiresProject = false)
+@Mojo( name = "clip", requiresProject = false)
 public class ClipConfigure extends AbstractMojo{
 
     Log log = getLog();
