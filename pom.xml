@@ -19,7 +19,7 @@ limitations under the License.
 
     <groupId>eu.vitaliy</groupId>
     <artifactId>maven-clip-plugin</artifactId>
-    <version>0.1.1</version>
+    <version>0.1.2-SNAPSHOT</version>
     <packaging>maven-plugin</packaging>
 
     <name>maven-clip-plugin Maven Plugin</name>
