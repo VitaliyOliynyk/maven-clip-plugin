@@ -26,6 +26,30 @@ limitations under the License.
 
     <url>http://github.com/VitaliyOliynyk/maven-clip-plugin</url>
 
+    <description>
+        Ulatwia spinanie aktualnie otwartych modulow maven w Intellij IDEA
+    </description>
+
+    <licenses>
+        <license>
+            <name>The Apache Software License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <scm>
+        <url>https://github.com/VitaliyOliynyk/maven-clip-plugin.git</url>
+        <connection>https://github.com/VitaliyOliynyk/maven-clip-plugin.git</connection>
+    </scm>
+    <developers>
+        <developer>
+            <id>Lead developer</id>
+            <name>Vitaliy Oliynyk</name>
+            <email>xaoc00@gmail.com</email>
+        </developer>
+    </developers>
+
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
